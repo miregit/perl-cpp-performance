@@ -10,7 +10,7 @@ To install this module type the following:
    perl Makefile.PL
    make
    make test
-   benchmark.pl
+   ./benchmark.pl
    make install
 
 if you want it installed to a local folder than do:
@@ -18,7 +18,7 @@ if you want it installed to a local folder than do:
     perl Makefile.PL INSTALL_BASE=/home/user/your/local/folder
     make
     make test
-    benchmark.pl
+    ./benchmark.pl
     make install
 
 DEPENDENCIES
