@@ -75,6 +75,13 @@ sub mem_usage {
     return $tr;
 }
 
+sub mds_clean {
+    my ($self) = @_;
+    $self->mem_clean;
+    $self->mds;
+    return 1;
+}
+
 sub mds {
     my ($self) = @_;
     $self->{'mds'} = $self->mem_usage();

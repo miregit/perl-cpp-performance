@@ -44,6 +44,7 @@ public:
     }
 
     ~Osadmin_XS() { 
+        // cout << "xs destroy" << endl;
     }
 
 private:
