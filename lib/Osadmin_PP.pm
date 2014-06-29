@@ -69,7 +69,18 @@ sub dict_load_words {
     return 1;    
 }
 
+# transliteration should be fast
 
+sub vowel_calc {
+    my ($self, my $rw) = @_;
+
+    my $w = $self->{'w'};
+
+    foreach my $word (keys %$w) {
+        $w->{$word}->{'vowels'} = $word =~ tr/aeiouAEIOU//;
+    }
+    return 1;
+}
 
 
 1;

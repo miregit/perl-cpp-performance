@@ -43,6 +43,22 @@ public:
             croak("ERROR: problem loading %s\n", dict_fp_.c_str()); 
     }
 
+
+    void vowel_calc () {
+        for (words_t::iterator it=words_.begin(); it!=words_.end(); it++) {
+            unsigned char nr = 0;
+            for (int i=0; i<it->first.length(); i++) {
+                char a = it->first[i];
+                if (
+                    a == 'a' || a == 'e' || a == 'i' || a == 'o' || a == 'u' ||
+                    a == 'A' || a == 'E' || a == 'I' || a == 'O' || a == 'U'
+                )
+                    nr++;
+            }
+            it->second.vowels = nr;
+        }
+    }
+
     ~Osadmin_XS() { 
         // cout << "xs destroy" << endl;
     }
@@ -65,3 +81,5 @@ Osadmin_XS::DESTROY()
 void 
 Osadmin_XS::dict_load_words()
 
+void 
+Osadmin_XS::vowel_calc()
