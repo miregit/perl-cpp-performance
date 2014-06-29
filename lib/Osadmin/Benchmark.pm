@@ -85,7 +85,7 @@ sub mdf {
     return 1;
 }
 
-sub mem_diff {
+sub mem_dif {
     my ($self) = @_;
 
     return 0
@@ -102,7 +102,7 @@ sub mem_diff {
     foreach my $col (@{$self->{'mem_fld'}}) {
         $tr->{$col} = $mdf->{$col} - $mds->{$col};
     }
-    $self->{'mem_diff'} = $tr;
+    $self->{'mem_dif'} = $tr;
     return 1;
 }
 
@@ -112,7 +112,7 @@ sub mem_dif_print {
     return 0
         unless $self->mem_dif();
 
-    $self->mem_usage_print( $self->{'mem_diff'} );
+    $self->mem_usage_print( $self->{'mem_dif'} );
     return 1;
 }
 
@@ -123,8 +123,8 @@ sub mem_usage_print {
         unless defined $mu;
 
 
-    printf $self->{'form_s'}, keys   %$mu;
-    printf $self->{'form_n'}, values %$mu;
+    printf $self->{'form_s'}, @{$self->{'mem_fld'}};
+    printf $self->{'form_n'}, @$mu{ @{$self->{'mem_fld'}} };
     return 1;
 }
 

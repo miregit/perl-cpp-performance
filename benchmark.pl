@@ -17,13 +17,13 @@ my $xs = Osadmin_XS->new($dict_fp);
 my $pp = Osadmin_PP->new($dict_fp);
 
 my $ob = Osadmin::Benchmark->new();
+$ob->mem_usage_print; sleep 20;
 
-$ob->mem_usage_print();
-exit;
-print "ok\n";
-
+$ob->mds;
 $xs->dict_load_words();
-sleep 10;
+$ob->mem_dif_print;
+
+exit;
 undef $xs;
 
 $pp->dict_load_words();
