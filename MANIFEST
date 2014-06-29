@@ -1,8 +1,16 @@
+benchmark.pl
 Changes
+lib/Osadmin.pm
+lib/Osadmin/Benchmark.pm
+lib/Osadmin_PP.pm
+lib/Osadmin_XS.pm
+LICENSE
 Makefile.PL
 MANIFEST
 Osadmin.xs
+perlobject.map
 ppport.h
 README
+README.md
 t/Osadmin.t
-lib/Osadmin.pm
+typemap
