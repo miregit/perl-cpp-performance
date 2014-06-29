@@ -1,0 +1,6 @@
+Revision history for Perl extension Osadmin.
+
+0.01  Thu May 15 16:13:19 2014
+	- original version; created by h2xs 1.23 with options
+		-A -n Osadmin
+

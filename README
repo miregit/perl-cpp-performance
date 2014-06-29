@@ -1,0 +1,40 @@
+Osadmin version 0.01
+====================
+
+Performance testing - perl vs. c++
+
+INSTALLATION
+
+To install this module type the following:
+
+   perl Makefile.PL
+   make
+   make test
+   benchmark.pl
+   make install
+
+if you want it installed to a local folder than do:
+
+    perl Makefile.PL INSTALL_BASE=/home/user/your/local/folder
+    make
+    make test
+    benchmark.pl
+    make install
+
+DEPENDENCIES
+
+c++ compiler, g++ works fine
+
+COPYRIGHT AND LICENCE
+
+Copyright (C) 2014 by Magyarevity Miroszlav
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself, either Perl version 5.18.2 or,
+at your option, any later version of Perl 5 you may have available.
+
+Except for the typemap code perlobject.map, which is copyright 1996 Dean Roehrich
+
+I'm not sure about the license terms on perlobject.map, you'll have to see about
+that yourself
+

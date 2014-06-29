@@ -1,0 +1,8 @@
+Changes
+Makefile.PL
+MANIFEST
+Osadmin.xs
+ppport.h
+README
+t/Osadmin.t
+lib/Osadmin.pm
