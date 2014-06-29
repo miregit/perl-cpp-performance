@@ -1,3 +1,2 @@
 TYPEMAP
-Osadmin *         O_OBJECT
 Osadmin_XS *         O_OBJECT

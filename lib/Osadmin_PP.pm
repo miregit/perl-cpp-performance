@@ -58,7 +58,7 @@ sub dict_load_words {
             chomp;
             $w->{$_} = {
                 'vowels'  => 0,
-                'ord_sum' => 0,
+                'palindrome' => 0,
             };
         }
         $fh->close;
@@ -72,7 +72,7 @@ sub dict_load_words {
 # transliteration should be fast
 
 sub vowel_calc {
-    my ($self, my $rw) = @_;
+    my ($self) = @_;
 
     my $w = $self->{'w'};
 
@@ -82,6 +82,11 @@ sub vowel_calc {
     return 1;
 }
 
+sub word_get_hr {
+    my ($self, $w) = @_;
+
+    return exists($self->{'w'}->{$w})?$self->{'w'}->{$w}:{};
+}
 
 1;
 __END__

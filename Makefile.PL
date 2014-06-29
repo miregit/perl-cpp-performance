@@ -10,7 +10,7 @@ WriteMakefile(
        AUTHOR         => 'Magyarevity Miroszlav <perl@osadmin.com>') : ()),
     LIBS              => [''],
     DEFINE            => '',
-    INC               => '-I. -I/opt/osadmin/src_ext/include',
+    INC               => '-I.',
     CC                => $CC,
     LD                => '$(CC)',
     XSOPT             => '-C++',

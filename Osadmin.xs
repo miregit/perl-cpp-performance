@@ -18,10 +18,10 @@ extern "C" {
 using namespace std;
 
 struct word_det {
-    word_det(): vowels(0), ord_sum(0) {
+    word_det(): vowels(0), palindrome(false) {
     }
     unsigned char vowels;
-    size_t        ord_sum;
+    bool          palindrome;
 };
 
 typedef map<string, word_det> words_t;
@@ -59,6 +59,16 @@ public:
         }
     }
 
+    SV * word_get_hr (char * w) {
+        HV * rh = (HV *)sv_2mortal((SV *)newHV());
+        const words_t::iterator it = words_.find(w);
+        if (it != words_.end()) {
+            hv_store(rh, "vowels",      6, newSViv(it->second.vowels),  0);
+            hv_store(rh, "palindrome", 10, newSViv(it->second.palindrome?1:0),  0);
+        }
+        return newRV((SV *) rh);
+    }
+
     ~Osadmin_XS() { 
         // cout << "xs destroy" << endl;
     }
@@ -83,3 +93,7 @@ Osadmin_XS::dict_load_words()
 
 void 
 Osadmin_XS::vowel_calc()
+
+SV * 
+Osadmin_XS::word_get_hr (char * w)
+

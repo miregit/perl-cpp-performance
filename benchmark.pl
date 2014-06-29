@@ -4,7 +4,7 @@ use warnings;
 
 use blib;
 
-use Benchmark;
+use Benchmark ':hireswallclock';
 use Osadmin_XS;
 use Osadmin_PP;
 use Osadmin::Benchmark;
@@ -40,7 +40,7 @@ timethese (
     -10, 
     {
         'c++ load words' => sub { my $xs = Osadmin_XS->new($dict_fp); $xs->dict_load_words(); },
-        'pp  load words'  => sub { my $pp = Osadmin_PP->new($dict_fp); $pp->dict_load_words(); },
+        'pp  load words' => sub { my $pp = Osadmin_PP->new($dict_fp); $pp->dict_load_words(); },
     }
 )
     if $do_other;
@@ -48,6 +48,7 @@ timethese (
 $ob->mem_dif_print('mem dif after 10 second load words test');
 
 # on my box, c++ is 14 times faster than perl at vowel calc
+
 $ob->mds_clean;
 timethese (
     -10, 
@@ -55,39 +56,55 @@ timethese (
         'pp  vowels' => sub { $pp->vowel_calc(); },
         'c++ vowels' => sub { $xs->vowel_calc(); },
     }
-);
+) if $do_other;
 $ob->mem_dif_print('mem dif after 10 second vowels test');
 
-#$pp->vowel_calc();
-#$xs->vowel_calc();
+#print Dumper $pp->word_get_hr('faith');
+#print Dumper $xs->word_get_hr('marathon');
 
-#print Dumper $pp->{'w'}->{'faith'};
+# c++ is almost 2 times slower since it has to create perl hash ref each time
+# perl just returns a reference ;)
+
+$ob->mds_clean;
+timethese (
+    -10,
+    {
+        'c++ word hash ref' => sub { $xs->word_get_hr('marathon'); },
+        'pp  word hash ref' => sub { $pp->word_get_hr('marathon'); },
+    }
+);
+$ob->mem_dif_print('mem dif after 10 second word get hr, c++ had to create perl hashref each time');
 
 exit;
 
 __END__
 
 my results:
-
 memory usage start
        vsz	       rss	       sha	       txt	       lib	       dat	       drt
-     59984	      7240	      2620	         8	         0	      4880	         0
+     59976	      7244	      2620	         8	         0	      4868	         0
 mem dif after pp load
        vsz	       rss	       sha	       txt	       lib	       dat	       drt
-     35196	     35060	        32	         0	         0	     35196	         0
+     35200	     35072	        32	         0	         0	     35200	         0
 mem dif after xs load
        vsz	       rss	       sha	       txt	       lib	       dat	       drt
      10824	     10824	        60	         0	         0	     10824	         0
 Benchmark: running c++ load words, pp  load words for at least 10 CPU seconds...
-c++ load words: 10 wallclock secs ( 9.99 usr +  0.12 sys = 10.11 CPU) @  5.54/s (n=56)
-pp  load words: 11 wallclock secs (10.21 usr +  0.12 sys = 10.33 CPU) @  2.13/s (n=22)
+c++ load words: 10.4201 wallclock secs ( 9.92 usr +  0.13 sys = 10.05 CPU) @  5.57/s (n=56)
+pp  load words: 10.5832 wallclock secs (10.30 usr +  0.10 sys = 10.40 CPU) @  2.12/s (n=22)
 mem dif after 10 second load words test
        vsz	       rss	       sha	       txt	       lib	       dat	       drt
-     28932	     28408	        44	         0	         0	     28932	         0
+     28944	     28412	        44	         0	         0	     28944	         0
 Benchmark: running c++ vowels, pp  vowels for at least 10 CPU seconds...
-c++ vowels: 11 wallclock secs (10.50 usr +  0.08 sys = 10.58 CPU) @ 67.30/s (n=712)
-pp  vowels: 11 wallclock secs (10.23 usr +  0.09 sys = 10.32 CPU) @  4.84/s (n=50)
+c++ vowels: 10.6663 wallclock secs (10.49 usr +  0.06 sys = 10.55 CPU) @ 65.97/s (n=696)
+pp  vowels: 10.6793 wallclock secs (10.50 usr +  0.08 sys = 10.58 CPU) @  4.73/s (n=50)
 mem dif after 10 second vowels test
        vsz	       rss	       sha	       txt	       lib	       dat	       drt
-      2304	      2904	         0	         0	         0	      2304	         0
+      2312	      2904	         0	         0	         0	      2312	         0
+Benchmark: running c++ word hash ref, pp  word hash ref for at least 10 CPU seconds...
+c++ word hash ref: 10.6853 wallclock secs (10.56 usr +  0.06 sys = 10.62 CPU) @ 484581.36/s (n=5146254)
+pp  word hash ref: 10.9967 wallclock secs (10.67 usr +  0.04 sys = 10.71 CPU) @ 727761.25/s (n=7794323)
+mem dif after 10 second word get hr, c++ had to create perl hashref each time
+       vsz	       rss	       sha	       txt	       lib	       dat	       drt
+         0	         0	         0	         0	         0	         0	         0
 
