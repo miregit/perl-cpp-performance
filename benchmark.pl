@@ -17,11 +17,11 @@ my $xs = Osadmin_XS->new($dict_fp);
 my $pp = Osadmin_PP->new($dict_fp);
 
 my $ob = Osadmin::Benchmark->new();
-$ob->mem_usage_print; sleep 20;
+$ob->mem_usage_print('memory usage');
 
 $ob->mds;
 $xs->dict_load_words();
-$ob->mem_dif_print;
+$ob->mem_dif_print('mem dif after xs load');
 
 exit;
 undef $xs;

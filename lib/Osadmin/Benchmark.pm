@@ -5,6 +5,7 @@ use 5.010001;
 use strict;
 use warnings;
 use IO::File;
+use POSIX;
 use Data::Dumper;
 
 require Exporter;
@@ -28,8 +29,9 @@ sub new {
 
     my $class = ref($this) || $this;
     my $self = {
-        'mem_fld' => [qw| vsz rss sha txt lib dat drt |],
-        'form_n'  => "%8d\t%8d\t%8d\t%8d\t%8d\t%8d\t%8d\n",
+        'mem_fld'   => [qw| vsz rss sha txt lib dat drt |],
+        'form_n'    => "%10d\t%10d\t%10d\t%10d\t%10d\t%10d\t%10d\n",
+        'page_size' => POSIX::sysconf(POSIX::_SC_PAGESIZE),
     };
     bless $self, $class;
 
@@ -107,24 +109,27 @@ sub mem_dif {
 }
 
 sub mem_dif_print {
-    my ($self) = @_;
+    my ($self, $title) = @_;
 
     return 0
         unless $self->mem_dif();
 
-    $self->mem_usage_print( $self->{'mem_dif'} );
+    $self->mem_usage_print( $title, $self->{'mem_dif'} );
     return 1;
 }
 
 sub mem_usage_print {
-    my ($self, $mu) = @_;
+    my ($self, $title, $mu) = @_;
+
+    print "$title\n"
+        if defined $title;
 
     $mu = $self->mem_usage()
         unless defined $mu;
 
 
     printf $self->{'form_s'}, @{$self->{'mem_fld'}};
-    printf $self->{'form_n'}, @$mu{ @{$self->{'mem_fld'}} };
+    printf $self->{'form_n'}, map {int ($self->{'page_size'} * $_ / 1024) } @$mu{ @{$self->{'mem_fld'}} };
     return 1;
 }
 
