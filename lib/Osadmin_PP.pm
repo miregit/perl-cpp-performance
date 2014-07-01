@@ -88,6 +88,26 @@ sub word_get_hr {
     return exists($self->{'w'}->{$w})?$self->{'w'}->{$w}:{};
 }
 
+sub palindrome_calc {
+    my ($self) = @_;
+
+    my $w = $self->{'w'};
+
+    foreach my $word (keys %$w) {
+        my $f    = 1;
+        my $wl   = length $word;
+        my $wlmo = $wl - 1 ;
+        for (my $i=0; $i<int($wl/2); $i++) {
+            if (substr($word, $i,1) ne substr($word, $wlmo - $i, 1)) {
+                $f = 0;
+                last;
+            }
+        }
+        $w->{$word}->{'palindrome'} = $f;
+    }
+    return 1;
+}
+
 1;
 __END__
 # Below is stub documentation for your module. You'd better edit it!

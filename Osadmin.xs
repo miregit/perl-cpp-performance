@@ -47,7 +47,7 @@ public:
     void vowel_calc () {
         for (words_t::iterator it=words_.begin(); it!=words_.end(); it++) {
             unsigned char nr = 0;
-            for (int i=0; i<it->first.length(); i++) {
+            for (size_t i=0; i<it->first.length(); i++) {
                 char a = it->first[i];
                 if (
                     a == 'a' || a == 'e' || a == 'i' || a == 'o' || a == 'u' ||
@@ -56,6 +56,23 @@ public:
                     nr++;
             }
             it->second.vowels = nr;
+        }
+    }
+
+    void palindrome_calc () {
+        for (words_t::iterator it=words_.begin(); it!=words_.end(); it++) {
+
+            const string& word = it->first;
+            bool f      = true;
+            size_t wl   = word.length();
+            size_t wlmo = wl - 1;
+            for (size_t i=0; i<static_cast<size_t>(wl/2); i++) {
+                if (word[i] != word[wlmo - i]) {
+                    f = false;
+                    break;
+                }
+            }
+            it->second.palindrome = f;
         }
     }
 
@@ -93,6 +110,9 @@ Osadmin_XS::dict_load_words()
 
 void 
 Osadmin_XS::vowel_calc()
+
+void 
+Osadmin_XS::palindrome_calc()
 
 SV * 
 Osadmin_XS::word_get_hr (char * w)
