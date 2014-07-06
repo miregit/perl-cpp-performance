@@ -12,4 +12,6 @@ BEGIN {
     use_ok('Osadmin') 
 };
 
+done_testing();
+
 __END__
